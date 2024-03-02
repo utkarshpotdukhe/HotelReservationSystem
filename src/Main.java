@@ -95,7 +95,7 @@ public class Main {
     }
 
     private static void viewReservations(Connection connection) throws SQLException {
-        String sql = "SELECT reservation_id, guest_name, room_number, contact_number, reservation_date FROM reservations";
+        String sql = "SELECT reservation_id, GUEST_NAME, ROOM_NUMBER, CONTACT_NUMBER, RESERVATION FROM reservations";
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
@@ -107,10 +107,10 @@ public class Main {
 
             while (resultSet.next()) {
                 int reservationId = resultSet.getInt("reservation_id");
-                String guestName = resultSet.getString("guest_name");
-                int roomNumber = resultSet.getInt("room_number");
-                String contactNumber = resultSet.getString("contact_number");
-                String reservationDate = resultSet.getTimestamp("reservation_date").toString();
+                String guestName = resultSet.getString("GUEST_NAME");
+                int roomNumber = resultSet.getInt("ROOM_NUMBER");
+                String contactNumber = resultSet.getString("CONTACT_NUMBER");
+                String reservationDate = resultSet.getTimestamp("RESERVATION").toString();
 
                 // Format and display the reservation data in a table-like format
                 System.out.printf("| %-14d | %-15s | %-13d | %-20s | %-19s   |\n",
@@ -129,9 +129,9 @@ public class Main {
             System.out.print("Enter guest name: ");
             String guestName = scanner.next();
 
-            String sql = "SELECT room_number FROM reservations " +
+            String sql = "SELECT ROOM_NUMBER FROM reservations " +
                     "WHERE reservation_id = " + reservationId +
-                    " AND guest_name = '" + guestName + "'";
+                    " AND GUEST_NAME = '" + guestName + "'";
 
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
@@ -166,9 +166,9 @@ public class Main {
             System.out.print("Enter new contact number: ");
             String newContactNumber = scanner.next();
 
-            String sql = "UPDATE reservations SET guest_name = '" + newGuestName + "', " +
-                    "room_number = " + newRoomNumber + ", " +
-                    "contact_number = '" + newContactNumber + "' " +
+            String sql = "UPDATE reservations SET GUEST_NAME = '" + newGuestName + "', " +
+                    "ROOM_NUMBER = " + newRoomNumber + ", " +
+                    "CONTACT_NUMBER = '" + newContactNumber + "' " +
                     "WHERE reservation_id = " + reservationId;
 
             try (Statement statement = connection.createStatement()) {
